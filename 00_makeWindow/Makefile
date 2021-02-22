@@ -1,0 +1,10 @@
+CC=g++
+CFLAGS=
+INCDIRS=-I.
+LIBDIRS=
+LIBS=-lSDL2 -lGLEW -lGL
+SOURCES=main.cpp
+TARGET=main
+all:
+	$(CC) $(CFLAGS) $(SOURCES) -o $(TARGET) $(INCDIRS) $(LIBDIRS) $(LIBS)
+
