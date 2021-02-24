@@ -10,6 +10,7 @@
 #include <Uniform.h>
 #include <IndexBuffer.h>
 #include <Draw.h>
+#include <Texture.h>
 
 Application* gApplication       = nullptr;
 GLuint       gVertexArrayObject = 0;
