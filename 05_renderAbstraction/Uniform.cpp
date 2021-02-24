@@ -1,5 +1,15 @@
 #include <Uniform.h>
 
+template class Uniform<int>;
+template class Uniform<float>;
+template class Uniform<Vec2>;
+template class Uniform<Vec3>;
+template class Uniform<Vec4>;
+template class Uniform<iVec2>;
+template class Uniform<iVec4>;
+template class Uniform<Quat>;
+template class Uniform<Mat4>;
+
 template<typename T>
 void Uniform<T>::Set(unsigned int slot, const T& value)
 {

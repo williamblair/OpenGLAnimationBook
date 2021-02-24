@@ -3,6 +3,13 @@
 #include <Vec3.h>
 #include <Vec4.h>
 
+template class Attribute<int>;
+template class Attribute<float>;
+template class Attribute<Vec2>;
+template class Attribute<Vec3>;
+template class Attribute<Vec4>;
+template class Attribute<iVec4>;
+
 template<typename T>
 Attribute<T>::Attribute()
 {
