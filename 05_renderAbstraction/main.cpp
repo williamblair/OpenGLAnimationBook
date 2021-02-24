@@ -8,6 +8,7 @@
 #include <Shader.h>
 #include <Attribute.h>
 #include <Uniform.h>
+#include <IndexBuffer.h>
 
 Application* gApplication       = nullptr;
 GLuint       gVertexArrayObject = 0;
