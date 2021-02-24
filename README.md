@@ -7,3 +7,9 @@ stb\_image.h from nothings stb library:
 
 https://github.com/nothings/stb
 
+cgltf.h from jkuhlmann cgltf library:
+
+https://github.com/jkuhlmann/cgltf
+
+
+
