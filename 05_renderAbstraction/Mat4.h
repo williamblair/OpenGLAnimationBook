@@ -67,7 +67,7 @@ struct Mat4
 };
 
 // comparison
-bool operator==(const Mat4& lhs, const Mat4& rhs) {
+inline bool operator==(const Mat4& lhs, const Mat4& rhs) {
     for (int i = 0; i < 16; i++) {
         if (fabsf(lhs.v[i] - rhs.v[i]) > MAT4_EPSILON) {
             return false;
@@ -75,7 +75,7 @@ bool operator==(const Mat4& lhs, const Mat4& rhs) {
     }
     return true;
 }
-bool operator!=(const Mat4& lhs, const Mat4& rhs) {
+inline bool operator!=(const Mat4& lhs, const Mat4& rhs) {
     return !(lhs == rhs);
 }
 
@@ -120,7 +120,7 @@ M4V4D(const Mat4& m, const int mRow,
            z * m.v[2 * 4 + mRow] +
            w * m.v[3 * 4 + mRow];
 }
-Vec4 operator*(const Mat4& m, const Vec4& v) {
+inline Vec4 operator*(const Mat4& m, const Vec4& v) {
     return Vec4(M4V4D(m, 0, v.x, v.y, v.z, v.w),
                 M4V4D(m, 1, v.x, v.y, v.z, v.w),
                 M4V4D(m, 2, v.x, v.y, v.z, v.w),
@@ -292,3 +292,4 @@ inline Mat4 lookAt(const Vec3& position,
 }
 
 #endif // MAT4_H_INCLUDED
+

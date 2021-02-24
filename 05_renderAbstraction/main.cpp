@@ -7,6 +7,7 @@
 #include <Transform.h>
 #include <Shader.h>
 #include <Attribute.h>
+#include <Uniform.h>
 
 Application* gApplication       = nullptr;
 GLuint       gVertexArrayObject = 0;

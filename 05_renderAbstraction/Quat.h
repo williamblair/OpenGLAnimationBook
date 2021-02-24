@@ -89,19 +89,19 @@ inline float getAngle(const Quat& quat) {
 }
 
 // Quaternion operations
-Quat operator+(const Quat& a, const Quat& b) {
+inline Quat operator+(const Quat& a, const Quat& b) {
     return Quat(a.x + b.x,
                 a.y + b.y,
                 a.z + b.z,
                 a.w + b.w);
 }
-Quat operator-(const Quat& a, const Quat& b) {
+inline Quat operator-(const Quat& a, const Quat& b) {
     return Quat(a.x - b.x,
                 a.y - b.y,
                 a.z - b.z,
                 a.w - b.w);
 }
-Quat operator*(const Quat& a, const float b) {
+inline Quat operator*(const Quat& a, const float b) {
     return Quat(a.x * b,
                 a.y * b,
                 a.z * b,
@@ -109,7 +109,7 @@ Quat operator*(const Quat& a, const float b) {
 }
 // this equation derived from the fact of the imaginary components
 // ijk = -1, and ii = jj = kk = -1
-Quat operator*(const Quat& a, const Quat& b) {
+inline Quat operator*(const Quat& a, const Quat& b) {
     return Quat( b.x*a.w + b.y*a.z - b.z*a.y + b.w*a.x,
                 -b.x*a.z + b.y*a.w + b.z*a.x + b.w*a.y,
                  b.x*a.y - b.y*a.x + b.z*a.w + b.w*a.z,
@@ -125,7 +125,7 @@ Quat operator*(const Quat& a, const Quat& b) {
 //                               cross(b.vecScalar.vector, a.vecScalar.vector);
 //    return result;
 //}
-Quat operator-(const Quat& q) {
+inline Quat operator-(const Quat& q) {
     return Quat(-q.x, -q.y, -q.z, -q.w);
 }
 
@@ -133,17 +133,17 @@ Quat operator-(const Quat& q) {
 // they end up rotating to the same spot
 // so just because they aren't identical component wise doesn't mean they
 // don't represent the same result rotation
-bool operator==(const Quat& lhs, const Quat& rhs) {
+inline bool operator==(const Quat& lhs, const Quat& rhs) {
     return (fabsf(lhs.x - rhs.x) <= QUAT_EPSILON &&
             fabsf(lhs.y - rhs.y) <= QUAT_EPSILON &&
             fabsf(lhs.z - rhs.z) <= QUAT_EPSILON &&
             fabsf(lhs.w - rhs.w) <= QUAT_EPSILON);
 }
-bool operator!=(const Quat& lhs, const Quat& rhs) {
+inline bool operator!=(const Quat& lhs, const Quat& rhs) {
     return !(lhs == rhs);
 }
 
-bool sameOrientation(const Quat& lhs, const Quat& rhs) {
+inline bool sameOrientation(const Quat& lhs, const Quat& rhs) {
     return (fabsf(lhs.x - rhs.x) <= QUAT_EPSILON &&
             fabsf(lhs.y - rhs.y) <= QUAT_EPSILON &&
             fabsf(lhs.z - rhs.z) <= QUAT_EPSILON &&
@@ -259,7 +259,7 @@ inline Quat nlerp(const Quat& from, const Quat& to, float t) {
 
 // power operator
 // quat = (v*sin(t*theta/2), cos(t*theta/2))
-Quat operator^(const Quat& q, float f) {
+inline Quat operator^(const Quat& q, float f) {
     float angle = 2.0f * acosf(q.vecScalar.scalar);
     Vec3 axis = normalized(q.vecScalar.vector);
     float halfCos = cosf(f * angle * 0.5f);
