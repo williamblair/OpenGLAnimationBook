@@ -37,20 +37,20 @@ struct Vec3
 };
 
 // component wise operations
-Vec3 operator+(const Vec3& lhs, const Vec3& rhs) {
+inline Vec3 operator+(const Vec3& lhs, const Vec3& rhs) {
     return Vec3(lhs.x + rhs.x,
                 lhs.y + rhs.y,
                 lhs.z + rhs.z);
 }
-Vec3 operator-(const Vec3& lhs, const Vec3& rhs) {
+inline Vec3 operator-(const Vec3& lhs, const Vec3& rhs) {
     return Vec3(lhs.x - rhs.x,
                 lhs.y - rhs.y,
                 lhs.z - rhs.z);
 }
-Vec3 operator*(const Vec3& v, float f) {
+inline Vec3 operator*(const Vec3& v, float f) {
     return Vec3(v.x * f, v.y * f, v.z * f);
 }
-Vec3 operator*(const Vec3& lhs, const Vec3& rhs) {
+inline Vec3 operator*(const Vec3& lhs, const Vec3& rhs) {
     return Vec3(lhs.x * rhs.x,
                 lhs.y * rhs.y,
                 lhs.z * rhs.z);
@@ -160,11 +160,11 @@ inline Vec3 nlerp(const Vec3& start, const Vec3& end, float t) {
 }
 
 // vector comparison
-bool operator==(const Vec3& lhs, const Vec3& rhs) {
+inline bool operator==(const Vec3& lhs, const Vec3& rhs) {
     Vec3 diff(lhs - rhs);
     return (lenSq(diff) < VEC3_EPSILON);
 }
-bool operator!=(const Vec3& lhs, const Vec3& rhs) {
+inline bool operator!=(const Vec3& lhs, const Vec3& rhs) {
     return !(lhs == rhs);
 }
 
