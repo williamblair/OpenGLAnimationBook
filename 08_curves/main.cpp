@@ -18,6 +18,8 @@
 #include <Interpolation.h>
 #include <Frame.h>
 #include <Track.h>
+#include <TransformTrack.h>
+#include <DebugDraw.h>
 
 Application* gApplication       = nullptr;
 GLuint       gVertexArrayObject = 0;

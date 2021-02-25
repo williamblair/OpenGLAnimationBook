@@ -127,7 +127,7 @@ int Track<T,N>::FrameIndex(float time, bool looping)
 
         time = fmodf(time - startTime, endTime - startTime);
         if (time < 0.0f) {
-            time += endTime = startTime;
+            time += endTime - startTime;
         }
         time = time + startTime;
 
