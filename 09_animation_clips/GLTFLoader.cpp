@@ -148,39 +148,6 @@ namespace GLTFHelpers
         }
     }
 
-    std::vector<Clip> LoadAnimationClips(cgltf_data* data) {
-        unsigned int numClips = data->animations_count;
-        unsigned int numNodes = data->nodes_count;
-
-        std::vector<Clip> result;
-        result.resize(numClips);
-
-        for (unsigned int i = 0; i < numClips; ++i) {
-            result[i].SetName(data->animations[i].name);
-
-            unsigned int numChannels = data->animations[i].channels_count;
-            for (unsigned int j = 0; j < numChannels; ++j) {
-                cgltf_animation_channel& channel = data->animations[i].channels[j];
-                cgltf_node* target = channel.target_node;
-                int nodeId = GetNodeIndex(target, data->nodes, numNodes);
-
-                if (channel.target_path == cgltf_animation_path_type_translation) {
-                    VectorTrack& track = result[i][nodeId].GetPositionTrack();
-                    TrackFromChannel<Vec3, 3>(track, channel);
-                } else if (channel.target_path == cgltf_animation_path_type_scale) {
-                    VectorTrack& track = result[i][nodeId].GetScaleTrack();
-                    TrackFromChannel<Vec3, 3>(track, channel);
-                } else if (channel.target_path == cgltf_animation_path_type_rotation) {
-                    QuaternionTrack& track = result[i][nodeId].GetRotationTrack();
-                    TrackFromChannel<Quat, 4>(track, channel);
-                }
-            }
-
-            result[i].RecalculateDuration();
-        }
-
-        return result;
-    }
 }
 
 Pose LoadRestPose(cgltf_data* data)
@@ -219,3 +186,36 @@ std::vector<std::string> LoadJointNames(cgltf_data* data)
     return result;
 }
 
+std::vector<Clip> LoadAnimationClips(cgltf_data* data) {
+    unsigned int numClips = data->animations_count;
+    unsigned int numNodes = data->nodes_count;
+
+    std::vector<Clip> result;
+    result.resize(numClips);
+
+    for (unsigned int i = 0; i < numClips; ++i) {
+        result[i].SetName(data->animations[i].name);
+
+        unsigned int numChannels = data->animations[i].channels_count;
+        for (unsigned int j = 0; j < numChannels; ++j) {
+            cgltf_animation_channel& channel = data->animations[i].channels[j];
+            cgltf_node* target = channel.target_node;
+            int nodeId = GLTFHelpers::GetNodeIndex(target, data->nodes, numNodes);
+
+            if (channel.target_path == cgltf_animation_path_type_translation) {
+                VectorTrack& track = result[i][nodeId].GetPositionTrack();
+                GLTFHelpers::TrackFromChannel<Vec3, 3>(track, channel);
+            } else if (channel.target_path == cgltf_animation_path_type_scale) {
+                VectorTrack& track = result[i][nodeId].GetScaleTrack();
+                GLTFHelpers::TrackFromChannel<Vec3, 3>(track, channel);
+            } else if (channel.target_path == cgltf_animation_path_type_rotation) {
+                QuaternionTrack& track = result[i][nodeId].GetRotationTrack();
+                GLTFHelpers::TrackFromChannel<Quat, 4>(track, channel);
+            }
+        }
+
+        result[i].RecalculateDuration();
+    }
+
+    return result;
+}

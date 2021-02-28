@@ -5,6 +5,7 @@
 #include <Attribute.h>
 #include <Vec3.h>
 #include <Mat4.h>
+#include <Pose.h>
 #include <vector>
 
 enum class DebugDrawMode {
@@ -29,6 +30,8 @@ public:
     void Resize(unsigned int newSize);
     Vec3& operator[](unsigned int index);
     void Push(const Vec3& v);
+
+    void FromPose(Pose& pose);
 
     void UpdateOpenGLBuffers();
     void Draw(DebugDrawMode mode, const Vec3& color, const Mat4& mvp);
