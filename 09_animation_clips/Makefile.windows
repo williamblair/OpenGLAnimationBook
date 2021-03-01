@@ -1,0 +1,26 @@
+CC=D:/MinGW/bin/mingw32-g++
+CFLAGS=-std=c++11 -g
+INCDIRS=-I. -I..
+LIBDIRS=-LD:/MinGW/lib
+LIBS=-lmingw32 -lSDL2 -lglew32 -lopengl32
+SOURCES=main.cpp            \
+        Sample.cpp          \
+        Application.cpp     \
+        Shader.cpp          \
+        Attribute.cpp       \
+        Uniform.cpp         \
+        IndexBuffer.cpp     \
+        Draw.cpp            \
+        Texture.cpp         \
+        GLTFLoader.cpp      \
+        Track.cpp           \
+        TransformTrack.cpp  \
+        DebugDraw.cpp       \
+        Pose.cpp            \
+        Clip.cpp            \
+        ../stb_image_impl.cpp \
+        ../cgltf_impl.cpp
+TARGET=main
+all:
+	$(CC) $(CFLAGS) $(SOURCES) -o $(TARGET) $(INCDIRS) $(LIBDIRS) $(LIBS)
+

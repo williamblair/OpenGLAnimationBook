@@ -1,4 +1,5 @@
 #include <Clip.h>
+#include <iostream>
 
 Clip::Clip()
 {
@@ -14,9 +15,9 @@ float Clip::Sample(Pose& outPose, float inTime)
         return 0.0f;
     }
 
+    float beforeInTime = inTime;
     inTime = AdjustTimeToFitRange(inTime);
     unsigned int size = tracks.size();
-    
     for (unsigned int i = 0; i < size; ++i) {
         unsigned int j = tracks[i].GetId(); // joint id
         Transform local = outPose.GetLocalTransform(j);

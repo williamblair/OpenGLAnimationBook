@@ -78,7 +78,8 @@ namespace GLTFHelpers
     int GetNodeIndex(cgltf_node* target,
                      cgltf_node* allNodes,
                      unsigned int numNodes) {
-        if (!target) {
+        if (target == nullptr) {
+            std::cout << "Returning -1 node index" << std::endl;
             return -1;
         }
 
@@ -88,6 +89,7 @@ namespace GLTFHelpers
             }
         }
 
+        std::cout << "Failed to find target node index" << std::endl;
         return -1;
     }
 

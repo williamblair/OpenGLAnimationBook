@@ -1,4 +1,5 @@
 #include <cstring>
+#include <iostream>
 #include <Pose.h>
 
 Pose::Pose()
@@ -40,7 +41,6 @@ Transform Pose::GetGlobalTransform(unsigned int index)
     for (int p = parents[index]; p >= 0; p = parents[p]) {
         result = combine(joints[p], result);
     }
-
     return result;
 }
 

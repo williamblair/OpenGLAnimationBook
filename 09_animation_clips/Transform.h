@@ -23,6 +23,16 @@ struct Transform
     {}
 };
 
+inline bool operator==(const Transform& a, const Transform& b) {
+    if (a.position != b.position ||
+        a.rotation != b.rotation ||
+        a.scale != b.scale) {
+        return false;
+    }
+    
+    return true;
+}
+
 // operations apply from right to left like matrix multiplication
 inline Transform combine(const Transform& a, const Transform& b) {
     Transform out;

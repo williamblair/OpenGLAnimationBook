@@ -23,6 +23,10 @@
 #include <Pose.h>
 #include <Clip.h>
 
+#ifdef __WIN32
+    #undef main
+#endif
+
 Application* gApplication       = nullptr;
 GLuint       gVertexArrayObject = 0;
 

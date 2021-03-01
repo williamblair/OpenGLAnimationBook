@@ -20,6 +20,8 @@ bool Sample::Initialize(const char* title, const int width, const int height)
 
     currentClip = 0;
     currentPose = restPose;
+    
+    playbackTime = 0.0f;
 
     currentPoseVisual = new DebugDraw();
     currentPoseVisual->FromPose(currentPose);
@@ -40,7 +42,7 @@ bool Sample::Initialize(const char* title, const int width, const int height)
 void Sample::Update(float inDeltaTime)
 {
     Application::Update(inDeltaTime);
-
+    Pose lastPose = currentPose;
     playbackTime = clips[currentClip].Sample(currentPose, playbackTime + inDeltaTime);
     currentPoseVisual->FromPose(currentPose);
 }
@@ -51,7 +53,7 @@ void Sample::Render(float inAspectRatio)
     Mat4 view = lookAt(Vec3(0,4,7), Vec3(0,4,0), Vec3(0,1,0));
     Mat4 mvp = projection * view; // no model matrix
 
-    restPoseVisual->Draw(DebugDrawMode::Lines, Vec3(1,0,0), mvp);
+    //restPoseVisual->Draw(DebugDrawMode::Lines, Vec3(1,0,0), mvp);
     currentPoseVisual->UpdateOpenGLBuffers();
     currentPoseVisual->Draw(DebugDrawMode::Lines, Vec3(0,0,1), mvp);
 }

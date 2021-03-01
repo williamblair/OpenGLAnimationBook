@@ -1,5 +1,6 @@
 #include <Track.h>
 #include <cstring>
+#include <iostream>
 
 template class Track<float, 1>;
 template class Track<Vec3, 3>;
@@ -67,6 +68,7 @@ T Track<T, N>::Sample(float time, bool looping)
         return SampleLinear(time, looping);
     }
     // else
+    std::cout << "Sampling cubic" << std::endl;
     return SampleCubic(time, looping);
 }
 template<typename T, int N>
@@ -221,6 +223,7 @@ T Track<T, N>::SampleLinear(float time, bool looping)
     int thisFrame = FrameIndex(time, looping);
     if (thisFrame < 0 || thisFrame >= frames.size() - 1) {
         // TODO error
+        std::cout << "Sample linear this frame error, returning default" << std::endl;
         return T();
     }
 
@@ -229,6 +232,7 @@ T Track<T, N>::SampleLinear(float time, bool looping)
     float thisTime = frames[thisFrame].time;
     float frameDelta = frames[nextFrame].time - thisTime;
     if (frameDelta <= 0.0f) {
+        std::cout << "Frame default < 0, returning default" << std::endl;
         return T();
     }
 

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <TransformTrack.h>
 
 TransformTrack::TransformTrack()
@@ -82,6 +83,6 @@ Transform TransformTrack::Sample(const Transform& ref, float time, bool looping)
         result.scale = scale.Sample(time, looping);
     }
     
-    return ref;
+    return result;
 }
 

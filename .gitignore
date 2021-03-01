@@ -1,2 +1,7 @@
 *.swp
 *main
+*.dll
+*.exe
+*.workspace
+*sdl2-config
+samples_zip
