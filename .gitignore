@@ -5,3 +5,5 @@
 *.workspace
 *sdl2-config
 samples_zip
+.codelite
+*.project
