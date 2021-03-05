@@ -302,7 +302,7 @@ void FastTrack<T,N>::UpdateIndexLookupTable()
         // find the closest matching frame
         unsigned int frameIndex = 0;
         for (int j = numFrames - 1; j >= 0; --j) {
-            if (time >= this->frames[i].time) {
+            if (time >= this->frames[j].time) {
                 frameIndex = (unsigned int)j;
                 if ((int)frameIndex >= numFrames - 2) {
                     frameIndex = numFrames - 2;

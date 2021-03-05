@@ -87,3 +87,14 @@ void RearrangeClip(Clip& clip, BoneMap& boneMap)
         clip.SetIdAtIndex(i, newJoint);
     }
 }
+
+void RearrangeFastClip(FastClip& clip, BoneMap& boneMap)
+{
+    unsigned int size = clip.GetSize();
+    
+    for (unsigned int i = 0; i < size; ++i) {
+        int joint = (int)clip.GetIdAtIndex(i);
+        unsigned int newJoint = (unsigned int)boneMap[joint];
+        clip.SetIdAtIndex(i, newJoint);
+    }
+}

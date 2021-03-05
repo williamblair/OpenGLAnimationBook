@@ -13,15 +13,20 @@ bool Sample::Initialize(const char* title, const int width, const int height)
 
     CPUMeshes = LoadMeshes(gltf);
     skeleton = LoadSkeleton(gltf);
-    clips = LoadAnimationClips(gltf);
+    std::vector<Clip> slowClips = LoadAnimationClips(gltf);
+    clips.resize(slowClips.size());
+    for (unsigned int i = 0; i < slowClips.size(); ++i) {
+        clips[i] = OptimizeClip(slowClips[i]);
+    }
     FreeGLTFFile(gltf);
     
+    // rearrange skeleton and clip hierarchy order so we can reuse parent transform calculations
     BoneMap optMap = RearrangeSkeleton(skeleton);
     for (unsigned int i = 0; i < CPUMeshes.size(); ++i) {
         RearrangeMesh(CPUMeshes[i], optMap);
     }
     for (unsigned int i = 0; i < clips.size(); ++i) {
-        RearrangeClip(clips[i], optMap);
+        RearrangeFastClip(clips[i], optMap);
     }
     
     GPUMeshes = CPUMeshes;

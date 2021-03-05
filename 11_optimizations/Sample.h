@@ -42,7 +42,7 @@ private:
     std::vector<Mesh> CPUMeshes;
     std::vector<Mesh> GPUMeshes;
     Skeleton skeleton;
-    std::vector<Clip> clips;
+    std::vector<FastClip> clips;
     
     AnimationInstance GPUAnimInfo;
     AnimationInstance CPUAnimInfo;
