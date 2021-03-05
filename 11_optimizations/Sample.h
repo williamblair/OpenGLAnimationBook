@@ -13,6 +13,7 @@
 #include <Texture.h>
 #include <Shader.h>
 #include <Uniform.h>
+#include <RearrangeBones.h>
 
 struct AnimationInstance {
     Pose animatedPose;

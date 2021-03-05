@@ -1,7 +1,12 @@
 #include <Clip.h>
 #include <iostream>
 
-Clip::Clip()
+// specialization declarations
+template class TClip<TransformTrack>;
+template class TClip<FastTransformTrack>;
+
+template<typename TRACK>
+TClip<TRACK>::TClip()
 {
     name = "No name given";
     startTime = 0.0f;
@@ -9,7 +14,8 @@ Clip::Clip()
     looping = true;
 }
 
-float Clip::Sample(Pose& outPose, float inTime)
+template<typename TRACK>
+float TClip<TRACK>::Sample(Pose& outPose, float inTime)
 {
     if (GetDuration() == 0.0f) {
         return 0.0f;
@@ -28,7 +34,8 @@ float Clip::Sample(Pose& outPose, float inTime)
     return inTime;
 }
 
-TransformTrack& Clip::operator[](unsigned int index)
+template<typename TRACK>
+TRACK& TClip<TRACK>::operator[](unsigned int index)
 {
     int size = tracks.size();
     for (int i = 0; i < size; ++i) {
@@ -38,12 +45,13 @@ TransformTrack& Clip::operator[](unsigned int index)
     }
 
     // add a default new one if the index doesn't exist
-    tracks.push_back(TransformTrack());
+    tracks.push_back(TRACK());
     tracks[tracks.size()-1].SetId(index);
     return tracks[tracks.size()-1];
 }
 
-void Clip::RecalculateDuration()
+template<typename TRACK>
+void TClip<TRACK>::RecalculateDuration()
 {
     startTime = 0.0f;
     endTime = 0.0f;
@@ -66,7 +74,8 @@ void Clip::RecalculateDuration()
     }
 }
 
-float Clip::AdjustTimeToFitRange(float inTime)
+template<typename TRACK>
+float TClip<TRACK>::AdjustTimeToFitRange(float inTime)
 {
     // modulate between start and end
     if (looping) {
@@ -94,3 +103,16 @@ float Clip::AdjustTimeToFitRange(float inTime)
     return inTime;
 }
 
+FastClip OptimizeClip(Clip& input)
+{
+    FastClip result;
+    result.SetName(input.GetName());
+    result.SetLooping(input.GetLooping());
+    unsigned int size = input.GetSize();
+    for (unsigned int i = 0; i < size; ++i) {
+        unsigned int joint = input.GetIdAtIndex(i);
+        result[joint] = OptimizeTransformTrack(input[joint]);
+    }
+    result.RecalculateDuration();
+    return result;
+}

@@ -20,6 +20,7 @@ SOURCES=main.cpp            \
         Clip.cpp            \
         Skeleton.cpp        \
         Mesh.cpp            \
+        RearrangeBones.cpp  \
         ../stb_image_impl.cpp \
         ../cgltf_impl.cpp
 TARGET=main

@@ -51,6 +51,8 @@ Transform Pose::operator[](unsigned int index)
 
 void Pose::GetMatrixPalette(std::vector<Mat4>& out)
 {
+// unoptimized version
+#if 0
     unsigned int size = GetSize();
     if (out.size() != size) {
         out.resize(size);
@@ -58,6 +60,34 @@ void Pose::GetMatrixPalette(std::vector<Mat4>& out)
 
     for (unsigned int i = 0; i < size; ++i)
     {
+        Transform t = GetGlobalTransform(i);
+        out[i] = transformToMat4(t);
+    }
+#endif
+
+    int size = (int)GetSize();
+    if ((int)out.size() != size) {
+        out.resize(size);
+    }
+    
+    int i = 0;
+    for (; i < size; ++i) {
+        int parent = parents[i];
+        // this breaks ascending order, so the previous calculated results cannot be used
+        if (parent > i) { 
+            break;
+        }
+        
+        Mat4 global = transformToMat4(joints[i]);
+        if (parent >= 0) {
+            global = out[parent] * global;
+        }
+        out[i] = global;
+    }
+    
+    // will only run if we called the break above, meaning parent ascending order wasn't used
+    // so fallback to the less efficient version
+    for (; i < size; ++i) {
         Transform t = GetGlobalTransform(i);
         out[i] = transformToMat4(t);
     }

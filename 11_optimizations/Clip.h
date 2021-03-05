@@ -7,11 +7,12 @@
 #include <TransformTrack.h>
 #include <Pose.h>
 
-class Clip
+template<typename TRACK>
+class TClip
 {
 public:
 
-    Clip();
+    TClip();
 
     // get and set the joint id for that transform track index
     inline unsigned int GetIdAtIndex(unsigned int index) const { return tracks[index].GetId(); }
@@ -25,7 +26,7 @@ public:
     float Sample(Pose& outPose, float inTime);
     
     // get the transform track at the index; if it doesn't exist, a default is returned
-    TransformTrack& operator[](unsigned int index);
+    TRACK& operator[](unsigned int index);
 
     // sets the start/end time of the clip based on the internal tracks
     // finds the min and max start and end time within the tracks and uses those
@@ -41,7 +42,7 @@ public:
 
 protected:
 
-    std::vector<TransformTrack> tracks;
+    std::vector<TRACK> tracks;
     std::string name;
 
     float startTime;
@@ -50,6 +51,12 @@ protected:
 
     float AdjustTimeToFitRange(float inTime);
 };
+
+typedef TClip<TransformTrack> Clip;
+typedef TClip<FastTransformTrack> FastClip;
+
+// convert a Clip to a FastClip
+FastClip OptimizeClip(Clip& input);
 
 #endif // CLIP_H_INCLUDED
 

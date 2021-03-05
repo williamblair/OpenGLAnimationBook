@@ -16,6 +16,14 @@ bool Sample::Initialize(const char* title, const int width, const int height)
     clips = LoadAnimationClips(gltf);
     FreeGLTFFile(gltf);
     
+    BoneMap optMap = RearrangeSkeleton(skeleton);
+    for (unsigned int i = 0; i < CPUMeshes.size(); ++i) {
+        RearrangeMesh(CPUMeshes[i], optMap);
+    }
+    for (unsigned int i = 0; i < clips.size(); ++i) {
+        RearrangeClip(clips[i], optMap);
+    }
+    
     GPUMeshes = CPUMeshes;
     for (unsigned int i = 0, size = (unsigned int)GPUMeshes.size(); i < size; ++i) {
         GPUMeshes[i].UpdateOpenGLBuffers();

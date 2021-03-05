@@ -28,7 +28,7 @@ public:
     T Hermite(float time, const T& p1, const T& s1, const T& p2, const T& s2);
     
     // returns the last frame before the requested time
-    int FrameIndex(float time, bool looping);
+    virtual int FrameIndex(float time, bool looping);
 
     // maps time to within input range
     float AdjustTimeToFitTrack(float t, bool loop);
@@ -46,9 +46,28 @@ protected:
 
 };
 
+// optimized frame index lookup version
+template<typename T, int N>
+class FastTrack : public Track<T,N>
+{
+protected:
+    std::vector<unsigned int> sampledFrames;
+public:
+    virtual int FrameIndex(float time, bool looping);
+    void UpdateIndexLookupTable();
+};
+
+// convert a track to a fast track
+template<typename T, int N>
+FastTrack<T,N> OptimizeTrack(Track<T,N>& input);
+
+// use optimized version instead
 typedef Track<float, 1> ScalarTrack;
 typedef Track<Vec3, 3> VectorTrack;
 typedef Track<Quat, 4> QuaternionTrack;
+typedef FastTrack<float, 1> FastScalarTrack;
+typedef FastTrack<Vec3, 3> FastVectorTrack;
+typedef FastTrack<Quat, 4> FastQuaternionTrack;
 
 #endif // TRACK_H_INCLUDED
 

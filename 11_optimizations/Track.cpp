@@ -5,6 +5,9 @@
 template class Track<float, 1>;
 template class Track<Vec3, 3>;
 template class Track<Quat, 4>;
+template class FastTrack<float, 1>;
+template class FastTrack<Vec3, 3>;
+template class FastTrack<Quat, 4>;
 
 namespace TrackHelpers
 {
@@ -277,4 +280,97 @@ T Track<T,N>::SampleCubic(float time, bool looping)
     return Hermite(t, point1, slope1, point2, slope2);
 }
 
+template<typename T, int N>
+void FastTrack<T,N>::UpdateIndexLookupTable()
+{
+    int numFrames = (int)this->frames.size();
+    if (numFrames <= 1) {
+        return;
+    }
+    
+    // assumes 60 frames per second is enough
+    float duration = this->GetEndTime() - this->GetStartTime();
+    unsigned int numSamples = duration * 60.0f;
+    sampledFrames.resize(numSamples);
+    
+    // pre compute sample along the track
+    for (unsigned int i = 0; i < numSamples; ++i) {
+        
+        float t = (float)i / (float)(numSamples - 1);
+        float time = t * duration + this->GetStartTime();
+        
+        // find the closest matching frame
+        unsigned int frameIndex = 0;
+        for (int j = numFrames - 1; j >= 0; --j) {
+            if (time >= this->frames[i].time) {
+                frameIndex = (unsigned int)j;
+                if ((int)frameIndex >= numFrames - 2) {
+                    frameIndex = numFrames - 2;
+                }
+                break;
+            }
+        }
+        sampledFrames[i] = frameIndex;
+    }
+}
 
+template<typename T, int N>
+int FastTrack<T,N>::FrameIndex(float time, bool loop)
+{
+    unsigned int size = this->frames.size();
+    if (size <= 1) {
+        // TODO error
+        return -1;
+    }
+    
+    // wrap within looping duration
+    if (loop) {
+        float startTime = this->frames[0].time;
+        float endTime = this->frames[this->frames.size() - 1].time;
+        float duration = endTime - startTime;
+        
+        time = fmodf(time - startTime, endTime - startTime);
+        if (time < 0.0f) {
+            time += duration;
+        }
+        time = time + startTime;
+        
+    // clamp between start and end
+    } else {
+        if (time <= this->frames[0].time) {
+            return 0;
+        }
+        if (time >= this->frames[this->frames.size() - 2].time) {
+            return (int)this->frames.size() - 2;
+        }
+    }
+    
+    float duration = this->GetEndTime() - this->GetStartTime();
+    float t = time / duration;
+    unsigned int numSamples = duration * 60.0f; // assumes 60 frames per second max
+    unsigned int index = t * (float)numSamples;
+    if (index >= sampledFrames.size()) {
+        // TODO error
+        return -1;
+    }
+    return (int)sampledFrames[index];
+}
+
+// specializations declaration
+template FastTrack<float,1> OptimizeTrack(Track<float,1>& input);
+template FastTrack<Vec3,3> OptimizeTrack(Track<Vec3,3>& input);
+template FastTrack<Quat,4> OptimizeTrack(Track<Quat,4>& input);
+
+template<typename T, int N>
+FastTrack<T,N> OptimizeTrack(Track<T,N>& input)
+{
+    FastTrack<T,N> result;
+    result.SetInterpolation(input.GetInterpolation());
+    unsigned int size = input.GetSize();
+    result.Resize(size);
+    for (unsigned int i = 0; i < size; ++i) {
+        result[i] = input[i];
+    }
+    result.UpdateIndexLookupTable();
+    return result;
+}

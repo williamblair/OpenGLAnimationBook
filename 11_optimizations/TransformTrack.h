@@ -4,17 +4,18 @@
 #include <Track.h>
 #include <Transform.h>
 
-class TransformTrack
+template<typename VTRACK, typename QTRACK>
+class TTransformTrack
 {
 public:
-    TransformTrack();
+    TTransformTrack();
     
     unsigned int GetId() const  { return id;     }
     void SetId(unsigned int id) { this->id = id; }
 
-    VectorTrack&     GetPositionTrack() { return position; }
-    QuaternionTrack& GetRotationTrack() { return rotation; }
-    VectorTrack&     GetScaleTrack()    { return scale; }
+    VTRACK& GetPositionTrack() { return position; }
+    QTRACK& GetRotationTrack() { return rotation; }
+    VTRACK& GetScaleTrack()    { return scale; }
 
     float GetStartTime();
     float GetEndTime();
@@ -24,10 +25,16 @@ public:
 
 protected:
     unsigned int id; // bone/joint id this track is used for
-    VectorTrack     position;
-    QuaternionTrack rotation;
-    VectorTrack     scale;
+    VTRACK position;
+    QTRACK rotation;
+    VTRACK scale;
 };
+
+typedef TTransformTrack<VectorTrack, QuaternionTrack> TransformTrack;
+typedef TTransformTrack<FastVectorTrack, FastQuaternionTrack> FastTransformTrack;
+
+// converts input transform track to a fast transform track
+FastTransformTrack OptimizeTransformTrack(TransformTrack& input);
 
 #endif // TRANSFORM_TRACK_H_INCLUDED
 

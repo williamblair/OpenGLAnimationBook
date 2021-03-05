@@ -1,12 +1,18 @@
 #include <iostream>
 #include <TransformTrack.h>
 
-TransformTrack::TransformTrack()
+// template declarations
+template class TTransformTrack<VectorTrack, QuaternionTrack>;
+template class TTransformTrack<FastVectorTrack, FastQuaternionTrack>;
+
+template<typename VTRACK, typename QTRACK>
+TTransformTrack<VTRACK,QTRACK>::TTransformTrack()
 {
     id = 0;
 }
 
-bool TransformTrack::IsValid()
+template<typename VTRACK, typename QTRACK>
+bool TTransformTrack<VTRACK,QTRACK>::IsValid()
 {
     return (position.GetSize() > 1 ||
            rotation.GetSize() > 1 ||
@@ -14,7 +20,8 @@ bool TransformTrack::IsValid()
 }
 
 // returns the smallest start time of the 3 tracks
-float TransformTrack::GetStartTime()
+template<typename VTRACK, typename QTRACK>
+float TTransformTrack<VTRACK,QTRACK>::GetStartTime()
 {
     float result = 0.0f;
     bool isSet = false;
@@ -43,7 +50,8 @@ float TransformTrack::GetStartTime()
 
 
 // returns the largest end time of the 3 tracks
-float TransformTrack::GetEndTime()
+template<typename VTRACK, typename QTRACK>
+float TTransformTrack<VTRACK,QTRACK>::GetEndTime()
 {
     float result = 0.0f;
     bool isSet = false;
@@ -70,7 +78,8 @@ float TransformTrack::GetEndTime()
     return result;
 }
 
-Transform TransformTrack::Sample(const Transform& ref, float time, bool looping)
+template<typename VTRACK, typename QTRACK>
+Transform TTransformTrack<VTRACK,QTRACK>::Sample(const Transform& ref, float time, bool looping)
 {
     Transform result = ref; // default values
     if (position.GetSize() > 1) {
@@ -86,3 +95,14 @@ Transform TransformTrack::Sample(const Transform& ref, float time, bool looping)
     return result;
 }
 
+FastTransformTrack OptimizeTransformTrack(TransformTrack& input)
+{
+    FastTransformTrack result;
+    
+    result.SetId(input.GetId());
+    result.GetPositionTrack() = OptimizeTrack<Vec3, 3>(input.GetPositionTrack());
+    result.GetRotationTrack() = OptimizeTrack<Quat, 4>(input.GetRotationTrack());
+    result.GetScaleTrack() = OptimizeTrack<Vec3, 3>(input.GetScaleTrack());
+    
+    return result;
+}
