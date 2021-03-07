@@ -15,9 +15,13 @@
 #include <Uniform.h>
 #include <RearrangeBones.h>
 #include <CrossFadeController.h>
+#include <CrossFadeTarget.h>
+#include <Blending.h>
 
+// uncomment to run a different sample
 //#define SAMPLE1
-#define SAMPLE2
+//#define SAMPLE2
+#define SAMPLE3
 
 #ifdef SAMPLE1
 struct AnimationInstance {
@@ -57,6 +61,16 @@ private:
     CrossFadeController fadeController;
     unsigned int currentClip;
     float fadeTimer;
+#endif
+#ifdef SAMPLE3
+    unsigned int clip;
+    unsigned int additiveIndex;
+    float playbackTime;
+    float additiveTime;
+    float additiveDirection;
+    Pose currentPose;
+    Pose addPose;
+    Pose additiveBase;
 #endif
 
 };
