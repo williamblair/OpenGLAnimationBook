@@ -14,12 +14,18 @@
 #include <Shader.h>
 #include <Uniform.h>
 #include <RearrangeBones.h>
+#include <CrossFadeController.h>
 
+//#define SAMPLE1
+#define SAMPLE2
+
+#ifdef SAMPLE1
 struct AnimationInstance {
     unsigned int clip;
     float time;
     Pose pose;
 };
+#endif
 
 class Sample : public Application
 {
@@ -37,14 +43,22 @@ private:
     std::vector<Mesh> meshes;
     std::vector<Clip> clips;
     Skeleton skeleton;
-    Pose pose;
     std::vector<Mat4> posePalette;
-    std::vector<Mat4> skinPalette;
     
+#ifdef SAMPLE1
+    Pose pose;
+    std::vector<Mat4> skinPalette;
     AnimationInstance animA;
     AnimationInstance animB;
     float blendTime;
     float invertBlend;
+#endif
+#ifdef SAMPLE2
+    CrossFadeController fadeController;
+    unsigned int currentClip;
+    float fadeTimer;
+#endif
+
 };
 
 #endif // SAMPLE_H_INCLUDED
