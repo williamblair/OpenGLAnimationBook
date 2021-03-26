@@ -108,8 +108,8 @@ void Sample::Render(float inAspectRatio)
     targetVisual[2]->UpdateOpenGLBuffers();
 
     targetVisual[0]->Draw(DebugDrawMode::Lines, Vec3(1,0,0), mvp);
-    targetVisual[1]->Draw(DebugDrawMode::Lines, Vec3(1,0,0), mvp);
-    targetVisual[2]->Draw(DebugDrawMode::Lines, Vec3(1,0,0), mvp);
+    targetVisual[1]->Draw(DebugDrawMode::Lines, Vec3(0,1,0), mvp);
+    targetVisual[2]->Draw(DebugDrawMode::Lines, Vec3(0,0,1), mvp);
 }
 
 void Sample::Shutdown()

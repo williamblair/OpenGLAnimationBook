@@ -18,6 +18,8 @@ public:
     }
 
     inline Transform GetLocalTransform(unsigned int index) { return IKChain[index]; }
+    // gets local transform
+    inline Transform& operator[](unsigned int index) { return IKChain[index]; }
     inline void SetLocalTransform(const Transform& t, unsigned int index) {
         IKChain[index] = t;
     }

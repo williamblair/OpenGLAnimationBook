@@ -18,6 +18,9 @@
 #include <CrossFadeTarget.h>
 #include <Blending.h>
 #include <CCDSolver.h>
+#include <FABRIKSolver.h>
+
+#define SAMPLE_2
 
 class Sample : public Application
 {
@@ -31,7 +34,6 @@ public:
 private:
 
     Transform target;
-    CCDSolver solver;
     TransformTrack targetPath;
     
     DebugDraw* solverLines;
@@ -42,6 +44,13 @@ private:
     float camPitch;
     float camYaw;
     float camDist;
+
+#ifdef SAMPLE_1
+    CCDSolver solver;
+#endif
+#ifdef SAMPLE_2
+    FABRIKSolver solver;
+#endif
 
     void SetFrame(VectorTrack& track, int index, float time, const Vec3& value);
 
