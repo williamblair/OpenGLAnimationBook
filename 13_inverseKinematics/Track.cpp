@@ -71,7 +71,7 @@ T Track<T, N>::Sample(float time, bool looping)
         return SampleLinear(time, looping);
     }
     // else
-    std::cout << "Sampling cubic" << std::endl;
+    //std::cout << "Sampling cubic" << std::endl;
     return SampleCubic(time, looping);
 }
 template<typename T, int N>

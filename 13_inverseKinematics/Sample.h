@@ -19,8 +19,12 @@
 #include <Blending.h>
 #include <CCDSolver.h>
 #include <FABRIKSolver.h>
+#include <IKLeg.h>
+#include <Intersections.h>
 
-#define SAMPLE_2
+#define SAMPLE_1 0
+#define SAMPLE_2 0
+#define SAMPLE_3 1
 
 class Sample : public Application
 {
@@ -33,6 +37,7 @@ public:
 
 private:
 
+#if (SAMPLE_1 || SAMPLE_2)
     Transform target;
     TransformTrack targetPath;
     
@@ -45,14 +50,54 @@ private:
     float camYaw;
     float camDist;
 
-#ifdef SAMPLE_1
+    void SetFrame(VectorTrack& track, int index, float time, const Vec3& value);
+#endif
+
+#if SAMPLE_1
     CCDSolver solver;
 #endif
-#ifdef SAMPLE_2
+#if SAMPLE_2
     FABRIKSolver solver;
 #endif
 
-    void SetFrame(VectorTrack& track, int index, float time, const Vec3& value);
+
+#if SAMPLE_3
+    
+    // The course for the character to walk on
+    Texture* courseTexture;
+    std::vector<Mesh> IKCourse;
+    std::vector<Triangle> triangles;
+
+    VectorTrack motionTrack;
+    float walkingTime;
+
+    Transform model;
+    std::vector<Mesh> meshes;
+    Pose currentPose;
+    std::vector<Mat4> posePalette;
+    float sinkIntoGround;
+    
+    IKLeg* leftLeg;
+    IKLeg* rightLeg;
+    float toeLength;
+    float lastModelY;
+
+    Texture* diffuseTexture;
+    Shader* staticShader;
+    Shader* skinnedShader;
+    Skeleton skeleton;
+    std::vector<Clip> clips;
+    unsigned int currentClip;
+    float playbackTime;
+    DebugDraw* currentPoseVisual;
+    
+    bool showIKPose;
+    bool showCurrentPose;
+    float timeMod;
+    bool depthTest;
+    bool showMesh;
+    bool showEnvironment;
+#endif
 
 };
 

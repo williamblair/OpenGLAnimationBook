@@ -22,9 +22,11 @@ SOURCES=main.cpp            \
         Mesh.cpp            \
         RearrangeBones.cpp  \
         CrossFadeController.cpp \
-        Blending.cpp        \
-        CCDSolver.cpp       \
-        FABRIKSolver.cpp       \
+        Blending.cpp          \
+        CCDSolver.cpp         \
+        FABRIKSolver.cpp      \
+        IKLeg.cpp        	  \
+        Intersections.cpp     \
         ../stb_image_impl.cpp \
         ../cgltf_impl.cpp
 TARGET=main

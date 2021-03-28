@@ -25,6 +25,8 @@ SOURCES=main.cpp            \
         Blending.cpp        \
         CCDSolver.cpp       \
         FABRIKSolver.cpp    \
+        IKLeg.cpp           \
+        Intersections.cpp   \
         ../stb_image_impl.cpp \
         ../cgltf_impl.cpp
 TARGET=main
