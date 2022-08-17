@@ -65,15 +65,17 @@ bool Sample::Initialize(const char* title, const int width, const int height)
 
     GPUAnimInfo.model.position = Vec3(-2, 0, 0);
     CPUAnimInfo.model.position = Vec3(2, 0, 0);
+    GPUAnimInfo.model.scale = Vec3(0.1f,0.1f,0.1f);
+    CPUAnimInfo.model.scale = Vec3(0.1f,0.1f,0.1f);
     
     unsigned int numUIClips = clips.size();
     for (unsigned int i = 0; i < numUIClips; ++i) {
-        if (clips[i].GetName() == "Walking") {
-            std::cout << "Found walking clip" << std::endl;
+        if (clips[i].GetName() == "Walk") {
+            std::cout << "Found Walk clip" << std::endl;
             CPUAnimInfo.clip = i;
             break;
-        } else if (clips[i].GetName() == "Running") {
-            std::cout << "Found running clip" << std::endl;
+        } else if (clips[i].GetName() == "Attack") {
+            std::cout << "Found Attack clip" << std::endl;
             GPUAnimInfo.clip = i;
         }
     }

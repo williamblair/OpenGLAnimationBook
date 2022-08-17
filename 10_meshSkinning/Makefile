@@ -26,3 +26,6 @@ TARGET=main
 all:
 	$(CC) $(CFLAGS) $(SOURCES) -o $(TARGET) $(INCDIRS) $(LIBDIRS) $(LIBS)
 
+transformTest:
+	$(CC) $(CFLAGS) transformTest.cpp -o transformTest $(INCDIRS) $(LIBDIRS) $(LIBS)
+
